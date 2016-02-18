@@ -14,7 +14,12 @@ class ChatViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var composeTextField: UITextField!
 
-    var chatMessages: [String] = []
+    struct ChatMessageObject {
+        let chatMessage: String
+        let user: String
+    }
+
+    var chatMessageObjects: [ChatMessageObject] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,10 +37,11 @@ class ChatViewController: UIViewController {
     }
     
     @IBAction func onSendButton(sender: AnyObject) {
-        let gameScore = PFObject(className:"Message_iOSFeb2016")
-        gameScore["text"] = composeTextField.text
+        let chatMessage = PFObject(className:"Message_iOSFeb2016")
+        chatMessage["text"] = composeTextField.text
+        chatMessage["user"] = PFUser.currentUser()
 
-        gameScore.saveInBackgroundWithBlock {
+        chatMessage.saveInBackgroundWithBlock {
             (success: Bool, error: NSError?) -> Void in
             if (success) {
                 print("successfully saved the message!")
@@ -48,15 +54,29 @@ class ChatViewController: UIViewController {
 
     func onTimer() {
         let query = PFQuery(className:"Message_iOSFeb2016")
+        query.includeKey("user")
         query.findObjectsInBackgroundWithBlock {
             (objects: [PFObject]?, error: NSError?) -> Void in
             if error == nil {
                 // The find succeeded.
                 print("Successfully retrieved \(objects!.count) scores.")
                 // Do something with the found objects
-                self.chatMessages = objects!.map({ (object: PFObject) -> String in
-                    return String(object["text"])
-                })
+
+                //self.chatMessageObjects = []
+                for object in objects! {
+                    var userName = ""
+                    if let user = object["user"] as? PFUser {
+                        print("hello")
+                        userName = user.username!
+                        print("world")
+                    }
+
+                    let chatObject = ChatMessageObject.init(
+                        chatMessage: object["text"] as! String,
+                        user: userName
+                    )
+                    self.chatMessageObjects.append(chatObject)
+                }
                 self.tableView.reloadData()
             } else {
                 // Log details of the failure
@@ -68,13 +88,14 @@ class ChatViewController: UIViewController {
 
 extension ChatViewController: UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return chatMessages.count
+        return chatMessageObjects.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ChatTableViewCell", forIndexPath: indexPath) as! ChatTableViewCell
 
-        cell.chatLabel.text = chatMessages[indexPath.row]
+        cell.chatLabel.text = chatMessageObjects[indexPath.row].chatMessage
+        cell.usernameLabel.text = chatMessageObjects[indexPath.row].user
 
         return cell
     }
