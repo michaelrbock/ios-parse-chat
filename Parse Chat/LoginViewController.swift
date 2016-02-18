@@ -29,6 +29,11 @@ class LoginViewController: UIViewController {
             (user: PFUser?, error: NSError?) -> Void in
             if user != nil {
                 // Do stuff after successful login.
+
+                let vc : ChatViewController = self.storyboard!.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController
+                let navigationController = UINavigationController(rootViewController: vc)
+                self.presentViewController(navigationController, animated: true, completion: nil)
+
                 print("login worked")
             } else {
                 if let error = error {
