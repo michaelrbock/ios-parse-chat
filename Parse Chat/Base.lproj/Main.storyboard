@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
@@ -77,18 +78,54 @@
                                     <action selector="onSendButton:" destination="6s0-jz-o9c" eventType="touchUpInside" id="pfJ-Wp-BhA"/>
                                 </connections>
                             </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="C6j-83-DDf">
+                                <rect key="frame" x="0.0" y="170" width="320" height="398"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ChatTableViewCell" rowHeight="60" id="ePe-rQ-8wr" customClass="ChatTableViewCell" customModule="Parse_Chat" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ePe-rQ-8wr" id="RVP-7t-8pu">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uVS-AS-P4Q">
+                                                    <rect key="frame" x="8" y="8" width="304" height="43.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="uVS-AS-P4Q" firstAttribute="leading" secondItem="RVP-7t-8pu" secondAttribute="leading" constant="8" id="BeA-Vf-juR"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="uVS-AS-P4Q" secondAttribute="bottom" id="Q7h-Gj-FEb"/>
+                                                <constraint firstAttribute="trailing" secondItem="uVS-AS-P4Q" secondAttribute="trailing" constant="8" id="saq-QL-bIa"/>
+                                                <constraint firstItem="uVS-AS-P4Q" firstAttribute="top" secondItem="RVP-7t-8pu" secondAttribute="top" constant="8" id="zlV-6A-ADq"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="chatLabel" destination="uVS-AS-P4Q" id="a3X-CS-XEk"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="pZc-zL-LcQ" secondAttribute="trailing" constant="20" id="DAa-x9-hWu"/>
+                            <constraint firstItem="rPR-kO-8St" firstAttribute="top" secondItem="C6j-83-DDf" secondAttribute="bottom" id="E6K-e2-cA8"/>
                             <constraint firstItem="pZc-zL-LcQ" firstAttribute="top" secondItem="Op5-aU-wG8" secondAttribute="bottom" constant="19" id="FOP-x7-tgV"/>
                             <constraint firstItem="pZc-zL-LcQ" firstAttribute="leading" secondItem="0JR-ld-zHL" secondAttribute="leading" constant="20" id="I4G-Jm-XmV"/>
+                            <constraint firstItem="C6j-83-DDf" firstAttribute="leading" secondItem="0JR-ld-zHL" secondAttribute="leading" id="PhA-nB-Swb"/>
+                            <constraint firstAttribute="trailing" secondItem="C6j-83-DDf" secondAttribute="trailing" id="atz-pY-KmS"/>
                             <constraint firstItem="TFC-y3-Omj" firstAttribute="top" secondItem="pZc-zL-LcQ" secondAttribute="bottom" constant="19" id="u0O-fg-kYK"/>
+                            <constraint firstItem="C6j-83-DDf" firstAttribute="top" secondItem="TFC-y3-Omj" secondAttribute="bottom" constant="8" id="w5n-h3-dgf"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Chat" id="FTD-TP-54w"/>
                     <connections>
                         <outlet property="composeTextField" destination="pZc-zL-LcQ" id="sFn-71-lFA"/>
+                        <outlet property="tableView" destination="C6j-83-DDf" id="VT7-sM-rjQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ddV-O7-JcV" userLabel="First Responder" sceneMemberID="firstResponder"/>
